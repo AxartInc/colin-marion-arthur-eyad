@@ -1,0 +1,8 @@
+{
+    "recommendations": [
+        "ms-vscode.cpptools",
+        "vsciot-vscode.vscode-arduino",
+        "ms-vscode.sublime-keybindings",
+        "bierner.markdown-preview-github-styles"
+    ]
+}
