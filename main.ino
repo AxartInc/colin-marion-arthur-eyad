@@ -1,3 +1,6 @@
+//  Copyright (c) 2018 Colin Marion Arthur Eyad
+//
+
 #include <Arduino.h>
 #include "include/timer.h"
 
