@@ -22,7 +22,15 @@ enum class fsm_state
     s2,
     s3,
     s33,
-    s34
+    s34,
+    s4,
+    s5,
+    s6,
+    s7,
+    s8,
+    s9,
+    s10,
+    s11
 };
 
 
@@ -59,21 +67,25 @@ void automate()
 
             break;
 
-/*         case fsm_state::s3:
+         case fsm_state::s3:
 
-            if (digitalRead(5) == HIGH)
+            if (digitalRead(5) == LOW)
             {
                 my_state = fsm_state::s33;
             }
-            if (digitalRead(6) == HIGH)
+            else if (digitalRead(6) == LOW)
             {
                 my_state = fsm_state::s34;
+            }
+            else if (digitalRead(4) == LOW)
+            {
+                my_state = fsm_state::s4;
             }
             break;
 
         case fsm_state::s33:
 
-            if (digitalRead(5) == LOW)
+            if (digitalRead(5) == HIGH)
             {
                 my_state = fsm_state::s3;
             }
@@ -82,12 +94,57 @@ void automate()
 
         case fsm_state::s34:
 
-            if (digitalRead(6) == LOW)
+            if (digitalRead(6) == HIGH)
             {
                 my_state = fsm_state::s3;
             }
 
-            break;*/
+            break;
+
+        case fsm_state::s4:
+
+            if (digitalRead(4) == HIGH)
+            {
+                my_state = fsm_state::s5;
+            }
+
+            break;
+        
+        case fsm_state::s5:
+
+            if (digitalRead(7) == LOW)
+            {
+                my_state = fsm_state::s6;
+            }
+
+            break;
+
+        case fsm_state::s6:
+
+            if (digitalRead(7) == HIGH)
+            {
+                my_state = fsm_state::s7;
+            }
+
+            break;
+
+        case fsm_state::s7:
+
+             if (digitalRead(7) == LOW)
+            {
+                my_state = fsm_state::s8;
+            }
+
+            break;
+
+        case fsm_state::s9:
+
+             if (digitalRead(7) == HIGH)
+            {
+                my_state = fsm_state::s10;
+            }
+
+            break;
         } 
     }
     else
@@ -103,6 +160,7 @@ void setup()
     pinMode(4, INPUT_PULLUP);
     pinMode(5, INPUT_PULLUP);
     pinMode(6, INPUT_PULLUP);
+    pinMode(7, INPUT_PULLUP);
 
     // Make the function automate() being called
     // every 1000 microseconds
@@ -113,12 +171,20 @@ void loop()
 {
     static int display_point = 0;
 
+    static int second = 0;
+    static int minute = 0;
+
+    static int halfsecond = 2;
+    static int update = 1;
+    static int update2 = 1;
+
+
     delay(500);
 
-    TimeDisp[3] = 0;
-    TimeDisp[2] = 0;
-    TimeDisp[1] = 0;
-    TimeDisp[0] = 0;
+    TimeDisp[3] = second % 10;
+    TimeDisp[2] = second / 10;
+    TimeDisp[1] = minute % 10;
+    TimeDisp[0] = minute / 10;
 
 
     // Manage the outputs from the state value
@@ -137,13 +203,11 @@ void loop()
             display_point = 0;
         } 
 
-        digitalWrite(13, LOW);
-
         break;
 
     case fsm_state::s3:
 
-         if (display_point == 0)
+        if (display_point == 0)
         {
             tm1637.display(TimeDisp);
             tm1637.point(POINT_ON);
@@ -152,6 +216,144 @@ void loop()
         else
         {
             tm1637.clearDisplay();
+            tm1637.point(POINT_OFF);
+            display_point = 0;
+        } 
+
+        break;
+
+    case fsm_state::s33:
+
+        if (display_point == 0)
+            {
+                tm1637.display(TimeDisp);
+                tm1637.point(POINT_ON);
+                display_point = 1;
+            }
+            else
+            {
+                tm1637.clearDisplay();
+                tm1637.point(POINT_OFF);
+                display_point = 0;
+            } 
+
+        second++;
+        if(second >= 59 )
+        {
+          minute++; 
+          second=0;
+        }
+        
+        break;
+
+    case fsm_state::s34:
+
+        if (display_point == 0)
+        {
+            tm1637.display(TimeDisp);
+            tm1637.point(POINT_ON);
+            display_point = 1;
+        }
+         else
+        {
+            tm1637.clearDisplay();
+            tm1637.point(POINT_OFF);
+            display_point = 0;
+        } 
+        
+        second--;
+        if(second <= 0 )
+        {
+          minute--;
+          minute = 0; 
+          second=60;
+        }
+        
+        break; 
+
+    case fsm_state::s5:
+        if (display_point == 0)
+        {
+            tm1637.display(TimeDisp);
+            tm1637.point(POINT_ON);
+            display_point = 1;
+        }
+        else
+        {
+            tm1637.point(POINT_OFF);
+            display_point = 0;
+        } 
+
+        break;
+      
+    case fsm_state::s7:
+        if(update == 1){ 
+            if (display_point == 0)
+            {
+                tm1637.display(TimeDisp);
+                tm1637.point(POINT_ON);
+                display_point = 1;
+            }
+            else
+            {
+                tm1637.point(POINT_OFF);
+                display_point = 0;
+            }
+        }
+
+        if(update == 1){ 
+            halfsecond--;
+            if(halfsecond <= 0)
+            {
+                second--;
+                if(second <= 0 )
+                {
+                    if(second == 0 && minute == 0){
+                        update = 0;
+                        update2 = 0;
+                        second = 1;
+                    }
+
+                    minute--;
+                    minute = 0; 
+                    second = 60;         
+                }  
+                halfsecond = 2;       
+            }
+        }
+
+        if(update == 0 && update2 == 0){
+           update = 5;
+           second = 0;
+        }
+
+        if(update == 5){
+            if (display_point == 0)
+            {
+                tm1637.display(TimeDisp);
+                tm1637.point(POINT_ON);
+                display_point = 1;
+            }
+            else
+            {
+                tm1637.clearDisplay();
+                tm1637.point(POINT_OFF);
+                display_point = 0;
+            } 
+        }
+
+        break;
+
+        case fsm_state::s10:
+
+        if (display_point == 0)
+        {
+            tm1637.display(TimeDisp);
+            tm1637.point(POINT_ON);
+            display_point = 1;
+        }
+        else
+        {
             tm1637.point(POINT_OFF);
             display_point = 0;
         } 
