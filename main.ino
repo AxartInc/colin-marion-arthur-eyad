@@ -8,6 +8,34 @@
 #define CLK 2 //pins definitions for TM1637 and can be changed to other ports
 #define DIO 3
 
+//const pour le fun
+const int c = 261;
+const int d = 294;
+const int e = 329;
+const int f = 349;
+const int g = 391;
+const int gS = 415;
+const int a = 440;
+const int aS = 455;
+const int b = 466;
+const int cH = 523;
+const int cSH = 554;
+const int dH = 587;
+const int dSH = 622;
+const int eH = 659;
+const int fH = 698;
+const int fSH = 740;
+const int gH = 784;
+const int gSH = 830;
+const int aH = 880;
+
+const int buzzerPin = 8;
+int counter = 0;
+
+static int update = 1;
+static int halfsecond = 2;
+static int update2 = 1;
+
 // Declaration of a int8_t array with 4 elements
 int8_t TimeDisp[] = {0, 0, 0, 0};
 
@@ -30,7 +58,8 @@ enum class fsm_state
     s8,
     s9,
     s10,
-    s11
+    s11,
+    s12
 };
 
 
@@ -128,20 +157,48 @@ void automate()
 
             break;
 
-        case fsm_state::s7:
-
-             if (digitalRead(7) == LOW)
-            {
+        case fsm_state::s7:      
+            if(update == 5){
                 my_state = fsm_state::s8;
             }
 
             break;
 
+        case fsm_state::s8:
+
+            if (digitalRead(7) == LOW)
+                {
+                my_state = fsm_state::s9;
+                }
+
+            break;
+
         case fsm_state::s9:
 
-             if (digitalRead(7) == HIGH)
+            if (digitalRead(7) == HIGH)
             {
                 my_state = fsm_state::s10;
+            }
+
+            break;
+
+        case fsm_state::s10:
+
+            if (digitalRead(4) == LOW)
+            {
+                my_state = fsm_state::s11;
+            }
+
+            break;
+
+        case fsm_state::s11:
+
+            if (digitalRead(4) == HIGH)
+            {
+                update = 1;
+                update2 = 1;
+                halfsecond = 2;
+                my_state = fsm_state::s1;
             }
 
             break;
@@ -162,22 +219,21 @@ void setup()
     pinMode(6, INPUT_PULLUP);
     pinMode(7, INPUT_PULLUP);
 
+    pinMode(buzzerPin, OUTPUT);
+
+
     // Make the function automate() being called
     // every 1000 microseconds
     set_timer4_interrupt(1000, automate);
 }
 
+
 void loop()
-{
+{    
     static int display_point = 0;
 
     static int second = 0;
     static int minute = 0;
-
-    static int halfsecond = 2;
-    static int update = 1;
-    static int update2 = 1;
-
 
     delay(500);
 
@@ -327,8 +383,13 @@ void loop()
            second = 0;
         }
 
-        if(update == 5){
-            if (display_point == 0)
+        break;
+
+        case fsm_state::s8:
+
+        tone(8, 500, 50);
+
+        if (display_point == 0)
             {
                 tm1637.display(TimeDisp);
                 tm1637.point(POINT_ON);
@@ -339,27 +400,128 @@ void loop()
                 tm1637.clearDisplay();
                 tm1637.point(POINT_OFF);
                 display_point = 0;
-            } 
-        }
+            }
 
         break;
+
 
         case fsm_state::s10:
 
-        if (display_point == 0)
-        {
             tm1637.display(TimeDisp);
             tm1637.point(POINT_ON);
-            display_point = 1;
-        }
-        else
-        {
-            tm1637.point(POINT_OFF);
-            display_point = 0;
-        } 
+        
+            //Play first section
+            firstSection();
+            
+            //Play second section
+            secondSection();
+            
+            //Variant 1
+            beep(f, 250);  
+            beep(gS, 500);  
+            beep(f, 350);  
+            beep(a, 125);
+            beep(cH, 500);
+            beep(a, 375);  
+            beep(cH, 125);
+            beep(eH, 650);
+            
+            delay(500);
+            
+            //Repeat second section
+            secondSection();
+            
+            //Variant 2
+            beep(f, 250);  
+            beep(gS, 500);  
+            beep(f, 375);  
+            beep(cH, 125);
+            beep(a, 500);  
+            beep(f, 375);  
+            beep(cH, 125);
+            beep(a, 650);  
+            
+            delay(650);
 
-        digitalWrite(13, HIGH);
+            update = 1;
+            update2 = 1;
+            halfsecond = 2;
 
         break;
     }
+}
+
+void beep(int note, int duration)
+{
+  //Play tone on buzzerPin
+  tone(buzzerPin, note, duration);
+ 
+  //Play different LED depending on value of 'counter'
+  if(counter % 2 == 0)
+  {
+    delay(duration);
+  }else
+  {
+    delay(duration);
+  }
+ 
+  //Stop tone on buzzerPin
+  noTone(buzzerPin);
+ 
+  delay(50);
+ 
+  //Increment counter
+  counter++;
+}
+
+void firstSection()
+{
+  beep(a, 500);
+  beep(a, 500);    
+  beep(a, 500);
+  beep(f, 350);
+  beep(cH, 150);  
+  beep(a, 500);
+  beep(f, 350);
+  beep(cH, 150);
+  beep(a, 650);
+ 
+  delay(500);
+ 
+  beep(eH, 500);
+  beep(eH, 500);
+  beep(eH, 500);  
+  beep(fH, 350);
+  beep(cH, 150);
+  beep(gS, 500);
+  beep(f, 350);
+  beep(cH, 150);
+  beep(a, 650);
+ 
+  delay(500);
+}
+ 
+void secondSection()
+{
+  beep(aH, 500);
+  beep(a, 300);
+  beep(a, 150);
+  beep(aH, 500);
+  beep(gSH, 325);
+  beep(gH, 175);
+  beep(fSH, 125);
+  beep(fH, 125);    
+  beep(fSH, 250);
+ 
+  delay(325);
+ 
+  beep(aS, 250);
+  beep(dSH, 500);
+  beep(dH, 325);  
+  beep(cSH, 175);  
+  beep(cH, 125);  
+  beep(b, 125);  
+  beep(cH, 250);  
+ 
+  delay(350);
 }
