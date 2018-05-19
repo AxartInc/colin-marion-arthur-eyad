@@ -31,6 +31,8 @@ const int aH = 880;
 
 const int buzzerPin = 8;
 int counter = 0;
+const int ledPin1 = 12;
+const int ledPin2 = 13;
 
 static int update = 1;
 static int halfsecond = 2;
@@ -220,6 +222,8 @@ void setup()
     pinMode(7, INPUT_PULLUP);
 
     pinMode(buzzerPin, OUTPUT);
+    pinMode(ledPin1, OUTPUT);
+    pinMode(ledPin2, OUTPUT);
 
 
     // Make the function automate() being called
@@ -459,10 +463,15 @@ void beep(int note, int duration)
   //Play different LED depending on value of 'counter'
   if(counter % 2 == 0)
   {
+    digitalWrite(ledPin1, HIGH);
     delay(duration);
-  }else
+    digitalWrite(ledPin1, LOW);
+  }
+  else
   {
+    digitalWrite(ledPin2, HIGH);
     delay(duration);
+    digitalWrite(ledPin2, LOW);
   }
  
   //Stop tone on buzzerPin
