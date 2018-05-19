@@ -60,8 +60,7 @@ enum class fsm_state
     s8,
     s9,
     s10,
-    s11,
-    s12
+    s11
 };
 
 
@@ -224,7 +223,9 @@ void setup()
     pinMode(buzzerPin, OUTPUT);
     pinMode(ledPin1, OUTPUT);
     pinMode(ledPin2, OUTPUT);
-
+    
+    digitalWrite(ledPin1, LOW);
+    digitalWrite(ledPin2, LOW);
 
     // Make the function automate() being called
     // every 1000 microseconds
