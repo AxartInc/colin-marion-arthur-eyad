@@ -168,9 +168,9 @@ void automate()
         case fsm_state::s8:
 
             if (digitalRead(7) == LOW)
-                {
+            {
                 my_state = fsm_state::s9;
-                }
+            }
 
             break;
 
@@ -279,6 +279,10 @@ void loop()
             tm1637.clearDisplay();
             tm1637.point(POINT_OFF);
             display_point = 0;
+        }
+
+        if(minute < 0){
+            minute = 0;
         } 
 
         break;
@@ -296,13 +300,13 @@ void loop()
                 tm1637.clearDisplay();
                 tm1637.point(POINT_OFF);
                 display_point = 0;
-            } 
+            }
 
         second++;
-        if(second >= 59 )
+        if(second >= 60)
         {
           minute++; 
-          second=0;
+          second = 0;
         }
         
         break;
@@ -323,13 +327,12 @@ void loop()
         } 
         
         second--;
-        if(second <= 0 )
+        if(second <= 0)
         {
-          minute--;
-          minute = 0; 
-          second=60;
+        minute--;
+        second = 60;
         }
-        
+
         break; 
 
     case fsm_state::s5:
@@ -367,7 +370,7 @@ void loop()
             if(halfsecond <= 0)
             {
                 second--;
-                if(second <= 0 )
+                if(second <= 0)
                 {
                     if(second == 0 && minute == 0){
                         update = 0;
@@ -375,8 +378,7 @@ void loop()
                         second = 1;
                     }
 
-                    minute--;
-                    minute = 0; 
+                    minute--; 
                     second = 60;         
                 }  
                 halfsecond = 2;       
@@ -386,6 +388,7 @@ void loop()
         if(update == 0 && update2 == 0){
            update = 5;
            second = 0;
+           minute = 0;
         }
 
         break;
@@ -414,6 +417,8 @@ void loop()
 
             tm1637.display(TimeDisp);
             tm1637.point(POINT_ON);
+
+            //easter egg
         
             //Play first section
             firstSection();
@@ -447,6 +452,8 @@ void loop()
             beep(a, 650);  
             
             delay(650);
+
+            //end easter egg
 
             update = 1;
             update2 = 1;
