@@ -1,27 +1,27 @@
 
 # Projet de fin d'année 1ère SSI - Minuteur
  
+## Introduction
 Ce Minuteur consiste en notre projet de fin d'année de 1ère SSI, il sera codé à l'aide d'une carte Arduino.
 Il s'agira d'un minuteur 2 digits réglable par 4 boutons poussoirs.
-Notre groupe est constitué de _Eyad Abdellatif, Colin Chouraki, Arthur Dauge et Marion Barthe_.
+Notre groupe est constitué de Eyad Abdellatif, Colin Chouraki, Arthur Dauge et Marion Barthe.
 
-## Matériel à disposition
+### Matériel à disposition
 
 * 1 carte Arduino M0 Pro + 1 plaque d'essais
 * 1 boîte de composants pour le prototypage (Boîte incolore)
 * 1 kit de démarrage Grove (Boîte verte) 
 * 1 afficheur 4 digits Grove
 
-## Cahier des charges
+### Cahier des charges
 
-* La conception du système doit être réalisée sous forme d'une __machine à
+* Le système doit être conçu sous forme d'une __machine à
 états finis__ cadencée à 10 Hz.
-* L'utilisateur doit être en mesure de régler le nombre de minutes et de secondes:
+* L'utilisateur doit pouvoir de régler le nombre de minutes et de secondes:
     - Il appuie d'abord sur un bouton __réglage__:
         * Cela fait clignoter l'afficheur (avec la valeur __00:00__) toutes les 0.5 
         secondes.
-    - Il appuie ensuite soit sur un bouton __gauche__ ou un bouton __droite__
-    pour incrémenter/decrémenter la valeur affichée du 1er digit:
+    - Il doit ensuite incrémenter/decrémenter la valeur affichée du 1er digit  en appuyant surun bouton __gauche__ ou un bouton __droite__  :
         * Si la valeur affiche __00:59__ et que l'utilisateur souhaite incrémenter,
         on doit avoir __01:00__
     - Une fois la valeur choisie, il réappuie sur le bouton __réglage__:
@@ -34,89 +34,39 @@ Notre groupe est constitué de _Eyad Abdellatif, Colin Chouraki, Arthur Dauge et
         clignotant toutes les 0.5 secondes.
     - Il réappuie sur le bouton __démarrer__ pour stopper le minuteur
         * La valeur __00:00__ ne doit plus clignoter.
+        
+### Bête à corne
 
+![Branchements Arduino](https://raw.githubusercontent.com/lycee-chaptal-sii/colin-marion-arthur-eyad/partie_communiquer/docs/bete%20a%20cornes.png?token=AiA3lZkPbn1K810Jq1GOGkG212CZM7cLks5bDqlDwA%3D%3D)
+        
+### Cahier des Charges
 
-#### Header 4
+| Fonctions de Service                                       | Critères                                                          | Niveaux                                                                                                          | Flexibilité |
+|:-----------------------------------------------------------|:------------------------------------------------------------------|:----------------------------------------------------------------------------------------------------------------------|:------------|
+| FP1 : Permettre à l'utilisateur de mesurer un temps donné  | Machine à états finis                                             | Cadencée à 10 Hz                                                                                                 | F0          |
+| FC1 : Pouvoir programmer le décompte de temps voulu        | Décrementation/Incrémentation + Sélection/Démarrer/Arrêter        | Boutons différents sauf pour Démarrer/Arrêter                                                                    | F0          |
+| FC2 : Doit être alimenté                                   | Alimentation électrique                                           | 3,3 V                                                                                                                  | F0          |
+| FC3 : Doit être facile d'utilisation                       | Boutons et afficheur                                              | 4 boutons Grove + afficheur 4 digits Grove                                                                         | F0          |
+| FC4 : Comprendre le fonctionnement facilement              | Clignotement pour montrer l'activité                              | Clignotement de 0,5s quand 00:00 affiché                                                                         | F0          |
 
-*   This is an unordered list following a header.
-*   This is an unordered list following a header.
-*   This is an unordered list following a header.
+## Hardware
 
-##### Header 5
+### Liste des composants
 
-1.  This is an ordered list following a header.
-2.  This is an ordered list following a header.
-3.  This is an ordered list following a header.
+* 1 carte Arduino M0 Pro + 1 plaque d'essais
+* 1 afficheur 4 digits Grove
+* 4 boutons poussoirs
+* 19 câbles de connexion
+* 1 buzzer
+* 2 led
+* 2 résistances
 
-###### Header 6
+### Schéma branchements Arduino
 
-| head1        | head two          | three |
-|:-------------|:------------------|:------|
-| ok           | good swedish fish | nice  |
-| out of stock | good and plenty   | nice  |
-| ok           | good `oreos`      | hmm   |
-| ok           | good `zoute` drop | yumm  |
+![Branchements Arduino](https://raw.githubusercontent.com/lycee-chaptal-sii/colin-marion-arthur-eyad/partie_communiquer/docs/schema.PNG?token=AiA3lWYiOy_aTa6bGpuvonCLa11UA_HNks5bDqd5wA%3D%3D)
 
-### There's a horizontal rule below this.
+## Software
 
-* * *
+### Diagramme d'états/transitions
 
-### Here is an unordered list:
-
-*   Item foo
-*   Item bar
-*   Item baz
-*   Item zip
-
-### And an ordered list:
-
-1.  Item one
-1.  Item two
-1.  Item three
-1.  Item four
-
-### And a nested list:
-
-- level 1 item
-  - level 2 item
-  - level 2 item
-    - level 3 item
-    - level 3 item
-- level 1 item
-  - level 2 item
-  - level 2 item
-  - level 2 item
-- level 1 item
-  - level 2 item
-  - level 2 item
-- level 1 item
-
-### Small image
-
-![Octocat](https://assets-cdn.github.com/images/icons/emoji/octocat.png)
-
-### Large image
-
-![Branching](https://guides.github.com/activities/hello-world/branching.png)
-
-
-### Definition lists can be used with HTML syntax.
-
-<dl>
-<dt>Name</dt>
-<dd>Godzilla</dd>
-<dt>Born</dt>
-<dd>1952</dd>
-<dt>Birthplace</dt>
-<dd>Japan</dd>
-<dt>Color</dt>
-<dd>Green</dd>
-</dl>
-
-```
-Long, single-line code blocks should not wrap. They should horizontally scroll if they are too long. This line should be long enough to demonstrate this.
-```
-
-```
-The final element.
-```
+![Diagramme d'états/transition](https://raw.githubusercontent.com/lycee-chaptal-sii/colin-marion-arthur-eyad/partie_communiquer/docs/diagramme%20etat.png?token=AiA3ldJzqxOyils5FIHxld--T9wRnzztks5bDqf1wA%3D%3D)
