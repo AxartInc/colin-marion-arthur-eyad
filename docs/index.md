@@ -37,8 +37,10 @@ Notre groupe est constitué de Eyad Abdellatif, Colin Chouraki, Arthur Dauge et 
         
 ### Bête à corne
 
-![Branchements Arduino](https://raw.githubusercontent.com/lycee-chaptal-sii/colin-marion-arthur-eyad/partie_communiquer/docs/bete%20a%20cornes.png?token=AiA3lZkPbn1K810Jq1GOGkG212CZM7cLks5bDqlDwA%3D%3D)
-        
+<p align="center">
+  <img src="https://raw.githubusercontent.com/lycee-chaptal-sii/colin-marion-arthur-eyad/partie_communiquer/docs/bete%20a%20cornes.png?token=AiA3lZkPbn1K810Jq1GOGkG212CZM7cLks5bDqlDwA%3D%3D">
+</p>
+
 ### Cahier des Charges
 
 | Fonctions de Service                                       | Critères                                                          | Niveaux                                                                                                          | Flexibilité |
