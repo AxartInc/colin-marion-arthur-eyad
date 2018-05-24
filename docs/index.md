@@ -52,6 +52,12 @@ Notre groupe est constitué de Eyad Abdellatif, Colin Chouraki, Arthur Dauge et 
 | FC4 : Comprendre le fonctionnement facilement              | Clignotement pour montrer l'activité                              | Clignotement de 0,5s quand 00:00 affiché                                                                         | F0          |
 | FC5 : Avertir l'utilisateur de la fin du décompte          | Buzzer pour montrer la fin du décompte                            |     Bip quand 00:00 affiché                                                                                          | F1          |
 
+### Diagramme FAST
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/lycee-chaptal-sii/colin-marion-arthur-eyad/partie_communiquer/docs/FAST.png?token=Ah4cigk0Aq2DDNEHn6nh-sLYlomSXTW2ks5bEE5fwA%3D%3D">
+</p>
+
 ## Hardware
 
 ### Liste des composants
