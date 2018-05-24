@@ -50,6 +50,7 @@ Notre groupe est constitué de Eyad Abdellatif, Colin Chouraki, Arthur Dauge et 
 | FC2 : Doit être alimenté                                   | Alimentation électrique                                           | 3,3 V                                                                                                                  | F0          |
 | FC3 : Doit être facile d'utilisation                       | Boutons et afficheur                                              | 4 boutons Grove + afficheur 4 digits Grove                                                                         | F0          |
 | FC4 : Comprendre le fonctionnement facilement              | Clignotement pour montrer l'activité                              | Clignotement de 0,5s quand 00:00 affiché                                                                         | F0          |
+| FC5 : Avertir l'utilisateur de la fin du décompte          | Buzzer pour montrer la fin du décompte                            |     Bip quand 00:00 affiché                                                                                          | F1          |
 
 ## Hardware
 
